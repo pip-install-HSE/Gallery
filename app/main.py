@@ -5,9 +5,11 @@ from typing import List, Optional
 
 import aiofiles
 from fastapi import Security, HTTPException, FastAPI, Depends, UploadFile, File
+from fastapi.responses import FileResponse
 from fastapi.openapi.models import APIKey
 from fastapi.security import APIKeyQuery, APIKeyHeader, APIKeyCookie
 from starlette.status import HTTP_403_FORBIDDEN
+from fastapi.responses import HTMLResponse
 
 app = FastAPI()
 
@@ -50,9 +52,29 @@ def get_best_times(count_needed_views: int, duration: float, player_ids: List[in
         d[i] = [{
             "unix_in": 3424234242,
             "unix_out": 3424234242 + duration * 1000,
-            "predicted_count_views": math.ceil((count_needed_views / len(player_ids))/c)
+            "predicted_count_views": math.ceil((count_needed_views / len(player_ids)) / c)
         } for j in range(c)]
     return d
+
+
+@app.get("/get_day_statistic/")
+def get_day_statistic(date: datetime.date, player_id: int,
+                      api_key: APIKey = Depends(get_api_key), response_class=HTMLResponse):
+    return """
+        <html>
+            <head>
+                <title>Some HTML in here</title>
+            </head>
+            <body>
+                <img src="/stat" alt="альтернативный текст" />
+            </body>
+        </html>
+        """
+
+
+@app.get("/stat", response_class=FileResponse)
+async def main():
+    return FileResponse("stat.jpg")
 
 
 @app.post("/uploadfile/")
