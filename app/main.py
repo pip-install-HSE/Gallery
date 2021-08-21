@@ -46,11 +46,12 @@ def get_best_times(count_needed_views: int, duration: float, player_ids: List[in
                    api_key: APIKey = Depends(get_api_key)):
     d = {}
     for i in player_ids:
+        c = randint(10, 20)
         d[i] = [{
             "unix_in": 3424234242,
             "unix_out": 3424234242 + duration * 1000,
-            "predicted_count_views": math.ceil(count_needed_views / len(player_ids))
-        } for j in range(randint(10, 20))]
+            "predicted_count_views": math.ceil((count_needed_views / len(player_ids))/c)
+        } for j in range(c)]
     return d
 
 
