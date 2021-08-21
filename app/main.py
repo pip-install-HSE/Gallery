@@ -40,6 +40,15 @@ def get_math_prediction(date_time: datetime.datetime, player_id: str,  api_key: 
     return {"views": 300}
 
 
+@app.get("/get_best_times/")
+def get_best_times(count_needed_views: int, duration: float, player_ids: List[int],  api_key: APIKey = Depends(get_api_key)):
+    d = {}
+    for i in player_ids:
+        d[i] = {"unix": 3424234242,
+                "predicted_count_views": 100}
+    return d
+
+
 @app.post("/uploadfile/")
 async def create_upload_file(in_file: UploadFile = File(...)):
     async with aiofiles.open(in_file.filename, 'wb') as out_file:
