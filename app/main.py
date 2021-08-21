@@ -60,16 +60,7 @@ def get_best_times(count_needed_views: int, duration: float, player_ids: List[in
 @app.get("/get_day_statistic/")
 def get_day_statistic(date: datetime.date, player_id: int,
                       api_key: APIKey = Depends(get_api_key), response_class=HTMLResponse):
-    return """
-        <html>
-            <head>
-                <title>Some HTML in here</title>
-            </head>
-            <body>
-                <img src="/stat" alt="альтернативный текст" />
-            </body>
-        </html>
-        """
+    return {"statistic_img": "http://185.232.169.130:8080/stat"}
 
 
 @app.get("/stat", response_class=FileResponse)
