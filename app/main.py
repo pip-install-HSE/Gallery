@@ -1,5 +1,6 @@
 import datetime
 import math
+from random import randint
 from typing import List, Optional
 
 import aiofiles
@@ -19,11 +20,10 @@ api_key_cookie = APIKeyCookie(name=API_KEY_NAME, auto_error=False)
 
 
 async def get_api_key(
-    api_key_query: str = Security(api_key_query),
-    api_key_header: str = Security(api_key_header),
-    api_key_cookie: str = Security(api_key_cookie),
+        api_key_query: str = Security(api_key_query),
+        api_key_header: str = Security(api_key_header),
+        api_key_cookie: str = Security(api_key_cookie),
 ):
-
     if api_key_query in ALLOWED_API_KEYS:
         return api_key_query
     elif api_key_header in ALLOWED_API_KEYS:
@@ -37,18 +37,20 @@ async def get_api_key(
 
 
 @app.get("/get_math_prediction/")
-def get_math_prediction(date_time: datetime.datetime, player_id: str,  api_key: APIKey = Depends(get_api_key)):
+def get_math_prediction(date_time: datetime.datetime, player_id: str, api_key: APIKey = Depends(get_api_key)):
     return {"views": 300}
 
 
 @app.post("/get_best_times/")
-def get_best_times(count_needed_views: int, duration: float, player_ids: List[int],  api_key: APIKey = Depends(get_api_key)):
+def get_best_times(count_needed_views: int, duration: float, player_ids: List[int],
+                   api_key: APIKey = Depends(get_api_key)):
     d = {}
-
     for i in player_ids:
-
-        d[i] = {"unix": 3424234242,
-                "predicted_count_views": math.ceil(count_needed_views/len(player_ids))}
+        d[i] = [{
+            "unix_in": 3424234242,
+            "unix_out": 3424234242 + duration * 1000,
+            "predicted_count_views": math.ceil(count_needed_views / len(player_ids))
+        } for j in range(randint(10, 20))]
     return d
 
 
