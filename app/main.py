@@ -1,4 +1,5 @@
 import datetime
+import math
 from typing import List, Optional
 
 import aiofiles
@@ -40,12 +41,14 @@ def get_math_prediction(date_time: datetime.datetime, player_id: str,  api_key: 
     return {"views": 300}
 
 
-@app.get("/get_best_times/")
+@app.post("/get_best_times/")
 def get_best_times(count_needed_views: int, duration: float, player_ids: List[int],  api_key: APIKey = Depends(get_api_key)):
     d = {}
+
     for i in player_ids:
+
         d[i] = {"unix": 3424234242,
-                "predicted_count_views": 100}
+                "predicted_count_views": math.ceil(count_needed_views/len(player_ids))}
     return d
 
 
