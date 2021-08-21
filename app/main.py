@@ -57,15 +57,15 @@ def get_best_times(count_needed_views: int, duration: float, player_ids: List[in
     return d
 
 
-@app.get("/get_day_statistic/")
-def get_day_statistic(date: datetime.date, player_id: int,
-                      api_key: APIKey = Depends(get_api_key), response_class=HTMLResponse):
-    return {"statistic_img": "http://185.232.169.130:8080/stat"}
-
-
-@app.get("/stat", response_class=FileResponse)
-async def main():
-    return FileResponse("stat.jpg")
+# @app.get("/get_day_statistic/")
+# def get_day_statistic(date: datetime.date, player_id: int,
+#                       api_key: APIKey = Depends(get_api_key), response_class=HTMLResponse):
+#     return {"statistic_img": "http://185.232.169.130:8080/stat"}
+#
+#
+# @app.get("/stat", response_class=FileResponse)
+# async def main():
+#     return FileResponse("stat.jpg")
 
 
 @app.post("/uploadfile/")
