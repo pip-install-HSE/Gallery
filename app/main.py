@@ -46,7 +46,7 @@ def get_math_prediction(date_time: datetime.datetime, player_id: str, api_key: A
         for row in f.readlines():
             row = row.split(",")
             if row[1] == str(weekday) and row[2] == str(half_hour):
-                return {"views": math.round(row[7])}
+                return {"views": round(row[7])}
     return {"views": -1}
 
 
