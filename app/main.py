@@ -40,7 +40,14 @@ async def get_api_key(
 
 @app.get("/get_math_prediction/")
 def get_math_prediction(date_time: datetime.datetime, player_id: str, api_key: APIKey = Depends(get_api_key)):
-    return {"views": 300}
+    weekday = date_time.weekday()
+    half_hour = 2*date_time.hour + (1 if date_time.minute >= 30 else 0) + 1
+    with open("holidays_new_mean_sum_dist_month.csv", "r") as f:
+        for row in f.readlines():
+            row = row.split(",")
+            if row[1] == str(weekday) and row[2] == str(half_hour):
+                return {"views": row[7]}
+    return {"views": -1}
 
 
 @app.post("/get_best_times/")
